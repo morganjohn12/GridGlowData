@@ -167,7 +167,7 @@ body {
     margin-bottom: 1rem;
 }
 
-/* Update the chart container styles to iframe container */
+/* Update the iframe container styles */
 .iframe-container {
     width: 100%;
     flex-grow: 1;
@@ -177,6 +177,8 @@ body {
     border-radius: 8px;
     padding: 0.5rem;
     overflow: hidden;
+    /* Add aspect ratio container */
+    padding-bottom: 100%; /* 1:1 aspect ratio */
 }
 
 .iframe-container iframe {
@@ -187,7 +189,6 @@ body {
     left: 0;
     border: none;
 }
-
 
 .image-container {
     width: 100%;

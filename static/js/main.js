@@ -50,7 +50,8 @@ class DashboardGrid {
                 const iframeContainer = document.createElement('div');
                 iframeContainer.className = 'iframe-container';
                 const iframe = document.createElement('iframe');
-                iframe.src = data.cardURL;
+                const baseUrl = 'https://domo.domo.com/embed/card/private/';
+                iframe.src = baseUrl + data.embedCode;
                 iframe.frameBorder = "0";
                 iframe.allowFullscreen = true;
                 iframe.marginHeight = "0";
