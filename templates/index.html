@@ -7,12 +7,17 @@
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
     <header class="header">
         <div class="logo-container">
             <img src="/static/images/logo.svg" alt="Logo" class="logo">
         </div>
+        <button class="refresh-button">
+            <i data-feather="refresh-cw"></i>
+            Refresh
+        </button>
     </header>
     <div class="container">
         <div class="grid-container">
@@ -42,5 +47,11 @@ ID,Title,imageURL,Chart,cardURL,summary
 11,Pre-Con Registration by Session,https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=10,Overlay bar,https://domo.domo.com/page/273550200/kpis/details/1648967139,Summary Text 11
     </script>
     <script src="/static/js/main.js"></script>
+    <script>
+        // Initialize Feather icons after the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            feather.replace();
+        });
+    </script>
 </body>
 </html>

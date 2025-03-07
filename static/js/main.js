@@ -15,16 +15,31 @@ class DashboardGrid {
             'Bar': 'bar',
             'Overlay bar': 'bar'
         };
+        this.setupRefreshButton();
     }
 
     async initialize() {
         try {
             await this.loadData();
             this.distributeContent();
-            setInterval(() => this.rotateContent(), 30000); // Rotate content every 30 seconds
         } catch (error) {
             console.error('Failed to initialize dashboard:', error);
         }
+    }
+
+    setupRefreshButton() {
+        const refreshButton = document.querySelector('.refresh-button');
+        if (refreshButton) {
+            refreshButton.addEventListener('click', () => {
+                this.refreshContent();
+            });
+        }
+    }
+
+    async refreshContent() {
+        this.charts.forEach(chart => chart.destroy());
+        this.charts.clear();
+        this.distributeContent();
     }
 
     async loadData() {
@@ -167,12 +182,6 @@ class DashboardGrid {
 
         // Shuffle the distribution
         return distribution.sort(() => Math.random() - 0.5);
-    }
-
-    rotateContent() {
-        this.charts.forEach(chart => chart.destroy());
-        this.charts.clear();
-        this.distributeContent();
     }
 }
 

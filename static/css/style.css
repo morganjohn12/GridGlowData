@@ -19,6 +19,9 @@
     background-color: var(--header-background);
     z-index: 1000;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .logo-container {
@@ -26,6 +29,30 @@
     padding: 1rem 2rem;
     display: flex;
     align-items: center;
+}
+
+.refresh-button {
+    margin-right: 2rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.refresh-button:hover {
+    background-color: var(--secondary);
+}
+
+.refresh-button svg {
+    width: 18px;
+    height: 18px;
 }
 
 .logo {
