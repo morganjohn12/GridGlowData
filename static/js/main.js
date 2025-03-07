@@ -39,12 +39,44 @@ class DashboardGrid {
         return types[Math.floor(Math.random() * types.length)];
     }
 
+    assignRandomSize(gridItem, contentType) {
+        // Reset classes
+        gridItem.className = 'grid-item';
+
+        // Randomly assign sizes based on content type
+        const random = Math.random();
+
+        if (contentType === 'iframe') {
+            // iframes are more likely to be large
+            if (random < 0.4) {
+                gridItem.classList.add('grid-item--large');
+            } else if (random < 0.7) {
+                gridItem.classList.add('grid-item--wide');
+            }
+        } else if (contentType === 'image') {
+            // images can be any size
+            if (random < 0.3) {
+                gridItem.classList.add('grid-item--tall');
+            } else if (random < 0.6) {
+                gridItem.classList.add('grid-item--wide');
+            }
+        } else if (contentType === 'summary') {
+            // summaries are more likely to be tall
+            if (random < 0.4) {
+                gridItem.classList.add('grid-item--tall');
+            }
+        }
+    }
+
     displayContent(gridItem, data) {
         const content = gridItem.querySelector('.content');
         content.innerHTML = '';
 
         // Randomly select content type
         const type = this.getRandomContentType();
+
+        // Assign random size
+        this.assignRandomSize(gridItem, type);
 
         switch (type) {
             case 'iframe':
