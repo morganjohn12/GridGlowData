@@ -85,7 +85,8 @@ class DashboardGrid {
             case 'summary':
                 const summaryDiv = document.createElement('div');
                 summaryDiv.className = 'summary';
-                summaryDiv.textContent = data.summary;
+                // Use the summary from the CSV data
+                summaryDiv.textContent = data.summary || 'No summary available';
                 content.appendChild(summaryDiv);
                 break;
         }
