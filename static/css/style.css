@@ -4,9 +4,8 @@
     --accent: #F478C3;
     --highlight: #5B89B3;
     --success: #569C3C;
-    --background: #555555;
-    --tile-background: #888888;
-    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    --background: #ffffff;
+    --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 * {
@@ -18,7 +17,7 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background-color: var(--background);
-    color: #ffffff;
+    color: #333;
 }
 
 .container {
@@ -30,53 +29,69 @@ body {
 .grid-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 0;
+    grid-auto-rows: 300px;
+    grid-auto-flow: dense;
+    gap: 1rem;
     margin: 0 auto;
 }
 
 .grid-item {
-    background: var(--tile-background);
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--card-shadow);
     overflow: hidden;
-    transition: transform 0.3s ease;
-    min-height: 300px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     opacity: 0;
     animation: fadeIn 0.5s ease forwards;
 }
 
+.grid-item:nth-child(3n+1) {
+    grid-row: span 2;
+}
+
+.grid-item:nth-child(4n+2) {
+    grid-column: span 2;
+}
+
 .grid-item:hover {
     transform: translateY(-5px);
-    box-shadow: var(--card-shadow);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     z-index: 1;
 }
 
 .content {
     padding: 1.5rem;
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .title {
-    color: #ffffff;
+    color: var(--primary);
     font-size: 1.25rem;
     margin-bottom: 1rem;
     font-weight: 600;
 }
 
 .summary {
-    color: #eeeeee;
+    color: #666;
     line-height: 1.6;
     margin-bottom: 1rem;
 }
 
 .chart-container {
     width: 100%;
-    height: 200px;
+    flex-grow: 1;
     position: relative;
+    min-height: 200px;
 }
 
 .image-container {
     width: 100%;
-    height: 200px;
+    flex-grow: 1;
     overflow: hidden;
+    border-radius: 8px;
+    min-height: 200px;
 }
 
 .image-container img {
@@ -104,6 +119,14 @@ body {
 @media (max-width: 1024px) {
     .grid-container {
         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-item:nth-child(3n+1) {
+        grid-row: auto;
+    }
+
+    .grid-item:nth-child(4n+2) {
+        grid-column: auto;
     }
 }
 
