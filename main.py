@@ -7,7 +7,7 @@ app = Flask(__name__)
 def index():
     response = make_response(render_template('index.html'))
     # Add CSP headers to allow iframe content from domo.domo.com
-    response.headers['Content-Security-Policy'] = "default-src 'self'; frame-src 'self' https://*.domo.com; frame-ancestors 'self' https://*.domo.com;"
+    response.headers['Content-Security-Policy'] = "default-src 'self'; frame-src 'self' https://*.domo.com; frame-ancestors 'self' https://*.domo.com; script-src 'self' https://cdnjs.cloudflare.com https://unpkg.com 'unsafe-inline';"
     # Remove X-Frame-Options as it's superseded by CSP frame-ancestors
     return response
 

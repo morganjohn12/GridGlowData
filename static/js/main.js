@@ -53,6 +53,8 @@ class DashboardGrid {
                 iframe.src = data.cardURL;
                 iframe.frameBorder = "0";
                 iframe.allowFullscreen = true;
+                iframe.marginHeight = "0";
+                iframe.marginWidth = "0";
                 iframeContainer.appendChild(iframe);
                 content.appendChild(iframeContainer);
                 break;
