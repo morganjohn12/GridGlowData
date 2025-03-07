@@ -33,11 +33,13 @@ class DashboardGrid {
             const response = await fetch('/static/data.csv');
             const csvText = await response.text();
             this.data = Papa.parse(csvText, { header: true }).data.filter(item => item.ID);
+            console.log('Loaded data:', this.data); // Debug log
         } catch (error) {
             console.error('Error loading CSV:', error);
             // Fallback to embedded data if fetch fails
             const csvData = document.getElementById('csvData').textContent;
             this.data = Papa.parse(csvData, { header: true }).data.filter(item => item.ID);
+            console.log('Fallback data:', this.data); // Debug log
         }
     }
 
