@@ -8,6 +8,21 @@
     --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Add these styles at the beginning of the file, after the :root section */
+.logo-container {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 1000;
+}
+
+.logo {
+    width: 200px;
+    height: auto;
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
+
 * {
     margin: 0;
     padding: 0;
