@@ -1,0 +1,12 @@
+ID	Title	imageURL	Chart	cardURL	summary
+1	DP25 | Breakout Registration by Session - Line Item	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=0	table	https://domo.domo.com/page/273550200/kpis/details/1663575913	Summary Text 1
+2	Domopalooza In-person YoY Registration Comparison	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=1	Line Chart	https://domo.domo.com/page/273550200/kpis/details/1274486623	Summary Text 2
+3	DP 25 Attendee Industry Breakdown	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=2	heatMap	https://domo.domo.com/page/273550200/kpis/details/2121587279	Summary Text 3
+4	DP25 Registrations	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=3	Gauge	https://domo.domo.com/page/273550200/kpis/details/1430887818	Summary Text 4
+5	DP25 Master Agenda	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=4	Table	https://domo.domo.com/page/273550200/kpis/details/848075994	Summary Text 5
+6	Registrants by Country	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=5	Map	https://domo.domo.com/page/273550200/kpis/details/1931774481	Summary Text 6
+7	Attendee Job Level	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=6	Pie	https://domo.domo.com/page/273550200/kpis/details/2137776612	Summary Text 7
+8	Relationship to Domo	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=7	Pie	https://domo.domo.com/page/273550200/kpis/details/653355050	Summary Text 8
+9	Ski Day Registration	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=8	Bar	https://domo.domo.com/page/273550200/kpis/details/1645465878	Summary Text 9
+10	Dietary Restrictions	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=9	Pie	https://domo.domo.com/page/273550200/kpis/details/870360473	Summary Text 10
+11	Pre-Con Registration by Session	https://th.bing.com/th/id/R.b1b463303db368fd76ad68356d1d4f0c?rik=lY2e9ubl6ESqZg&pid=ImgRaw&r=10	Overlay bar	https://domo.domo.com/page/273550200/kpis/details/1648967139	Summary Text 11
