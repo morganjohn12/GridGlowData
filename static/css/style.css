@@ -1,88 +1,4 @@
-/* Update iframe container styles */
-.iframe-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.iframe-container iframe {
-    width: 100%;
-    height: 100%;
-    border: none;
-}
-
-/* Update image container styles */
-.image-container {
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-    background: white;
-}
-
-.image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-}
-
-.image-container img:hover {
-    transform: scale(1.05);
-}
-
-/* Grid item styles */
-.grid-item {
-    background: white;
-    border-radius: 12px;
-    box-shadow: var(--card-shadow);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    min-height: 300px;
-}
-
-.content {
-    height: 100%;
-    width: 100%;
-    position: relative;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-}
-
-/* Text content styles */
-.title {
-    color: var(--primary);
-    font-size: 1.25rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    z-index: 2;
-}
-
-.summary {
-    color: #666;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-    z-index: 2;
-}
-
-/* Reset styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Variable definitions */
+/* Reset and Variables */
 :root {
     --primary: #7A3CA3;
     --secondary: #A82592;
@@ -94,6 +10,12 @@
     --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     background-color: var(--background);
@@ -101,6 +23,7 @@ body {
     padding-top: 80px;
 }
 
+/* Header styles */
 .header {
     position: fixed;
     top: 0;
@@ -145,11 +68,7 @@ body {
     background-color: var(--secondary);
 }
 
-.refresh-button svg {
-    width: 18px;
-    height: 18px;
-}
-
+/* Mosaic Grid Layout */
 .container {
     max-width: 1400px;
     margin: 0 auto;
@@ -158,42 +77,91 @@ body {
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    margin: 0 auto;
-    grid-auto-flow: dense; /* This helps fill gaps when items span multiple cells */
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-rows: 250px;
+    grid-auto-flow: dense;
+    gap: 1.5rem;
 }
 
-
-.grid-item:nth-child(3n+1)::before {
-    background: linear-gradient(45deg, var(--success), var(--highlight), var(--primary));
-}
-
-.grid-item:nth-child(3n+2)::before {
-    background: linear-gradient(-45deg, var(--highlight), var(--primary), var(--secondary));
-}
-
-.grid-item:nth-child(3n+3)::before {
-    background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
-}
-
-.grid-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-}
-
-.grid-item:hover::before {
-    opacity: 0.2;
+/* Grid item variations */
+.grid-item {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .grid-item--wide {
     grid-column: span 2;
+    grid-row: span 2;
 }
 
 .grid-item--tall {
     grid-row: span 2;
 }
 
+/* Content Styles */
+.content {
+    height: 100%;
+    width: 100%;
+    position: relative;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+/* Iframe Container */
+.iframe-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.iframe-container iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* Image Container */
+.image-container {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+    background: white;
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-container:hover img {
+    transform: scale(1.05);
+}
+
+/* Text Content */
+.summary {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    padding: 1.5rem;
+    height: 100%;
+    background: white;
+    border-radius: 12px;
+}
+
+/* Gradient Overlays */
 .grid-item::before {
     content: '';
     position: absolute;
@@ -207,17 +175,31 @@ body {
     z-index: 0;
 }
 
-@media (max-width: 1200px) {
-    .container {
-        padding: 1.5rem;
-    }
+.grid-item:nth-child(3n+1)::before {
+    background: linear-gradient(45deg, var(--success), var(--highlight));
+}
 
+.grid-item:nth-child(3n+2)::before {
+    background: linear-gradient(-45deg, var(--highlight), var(--primary));
+}
+
+.grid-item:nth-child(3n+3)::before {
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+}
+
+.grid-item:hover::before {
+    opacity: 0.2;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
     .grid-container {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     }
 
     .grid-item--wide {
-        grid-column: auto; /* Reset spanning on smaller screens */
+        grid-column: auto;
+        grid-row: auto;
     }
 }
 
@@ -227,7 +209,7 @@ body {
     }
 
     .grid-container {
-        grid-template-columns: 1fr;
+        gap: 1rem;
     }
 
     .header {
@@ -235,18 +217,7 @@ body {
     }
 }
 
-@media (max-width: 1024px) {
-    .grid-container {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 640px) {
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
-}
-
+/* Loading Animation */
 .loading {
     position: relative;
 }

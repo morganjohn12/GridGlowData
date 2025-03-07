@@ -32,96 +32,95 @@ class DashboardGrid {
             const response = await fetch('/static/data.csv');
             const csvText = await response.text();
             this.data = Papa.parse(csvText, { header: true }).data.filter(item => item.ID);
-            console.log('Loaded data:', this.data);
         } catch (error) {
             console.error('Error loading CSV:', error);
             throw error;
         }
     }
 
-    displayContent(gridItem, type, data) {
+    getRandomContentType() {
+        const types = ['image', 'iframe', 'summary'];
+        return types[Math.floor(Math.random() * types.length)];
+    }
+
+    shouldBeWide(type, data) {
+        if (type === 'iframe') return true;
+        if (type === 'summary' && data.summary && data.summary.length > 300) return true;
+        return false;
+    }
+
+    shouldBeTall(type, data) {
+        if (type === 'summary' && data.summary && data.summary.length > 200) return true;
+        return false;
+    }
+
+    displayContent(gridItem, data) {
         const content = gridItem.querySelector('.content');
         content.innerHTML = '';
 
-        // Add size classes based on content type
+        // Randomly select content type
+        const type = this.getRandomContentType();
+
+        // Reset classes
         gridItem.className = 'grid-item';
-        if (type === 'iframe') {
+
+        // Apply size classes based on content
+        if (this.shouldBeWide(type, data)) {
             gridItem.classList.add('grid-item--wide');
         }
-        if (type === 'summary' && data.summary && data.summary.length > 200) {
+        if (this.shouldBeTall(type, data)) {
             gridItem.classList.add('grid-item--tall');
         }
 
         switch (type) {
             case 'iframe':
-                const iframeContainer = document.createElement('div');
-                iframeContainer.className = 'iframe-container';
-                const iframe = document.createElement('iframe');
-                iframe.src = `https://domo.domo.com/embed/card/private/${data.embedCode}`;
-                iframe.frameBorder = "0";
-                iframe.allowFullscreen = true;
-                iframeContainer.appendChild(iframe);
-                content.appendChild(iframeContainer);
+                if (data.embedCode) {
+                    const iframeContainer = document.createElement('div');
+                    iframeContainer.className = 'iframe-container';
+                    const iframe = document.createElement('iframe');
+                    iframe.src = `https://domo.domo.com/embed/card/private/${data.embedCode}`;
+                    iframe.frameBorder = "0";
+                    iframe.allowFullscreen = true;
+                    iframeContainer.appendChild(iframe);
+                    content.appendChild(iframeContainer);
+                }
                 break;
 
             case 'image':
-                const imgContainer = document.createElement('div');
-                imgContainer.className = 'image-container';
-                const img = document.createElement('img');
-                img.src = data.imageURL;
-                img.alt = data.Title;
-                img.onerror = () => {
-                    img.src = 'https://via.placeholder.com/300x200?text=Image+Not+Found';
-                };
-                imgContainer.appendChild(img);
-                content.appendChild(imgContainer);
-
-                const titleDiv = document.createElement('div');
-                titleDiv.className = 'title';
-                titleDiv.textContent = data.Title;
-                content.appendChild(titleDiv);
+                if (data.imageURL) {
+                    const imgContainer = document.createElement('div');
+                    imgContainer.className = 'image-container';
+                    const img = document.createElement('img');
+                    img.src = data.imageURL;
+                    img.alt = data.Title || 'Dashboard Image';
+                    img.onerror = () => {
+                        img.src = 'https://via.placeholder.com/400x300?text=Image+Not+Found';
+                    };
+                    imgContainer.appendChild(img);
+                    content.appendChild(imgContainer);
+                }
                 break;
 
             case 'summary':
-                const summaryDiv = document.createElement('div');
-                summaryDiv.className = 'summary';
-                summaryDiv.textContent = data.summary || 'No summary available';
-                content.appendChild(summaryDiv);
+                if (data.summary) {
+                    const summaryDiv = document.createElement('div');
+                    summaryDiv.className = 'summary';
+                    summaryDiv.textContent = data.summary;
+                    content.appendChild(summaryDiv);
+                }
                 break;
         }
     }
 
     distributeContent() {
-        const distribution = [];
-
-        // Key metrics as iframes (first 3 items)
-        ['4', '1', '2'].forEach(id => {
-            const item = this.data.find(d => d.ID === id);
-            if (item) {
-                distribution.push({ type: 'iframe', data: item });
-            }
-        });
-
-        // Add some images (next 3 items)
-        const imageItems = this.data.filter(d => !['4', '1', '2'].includes(d.ID)).slice(0, 3);
-        imageItems.forEach(item => {
-            distribution.push({ type: 'image', data: item });
-        });
-
-        // Fill remaining slots with summaries
-        const remainingItems = this.data.filter(d => 
-            !distribution.some(dist => dist.data.ID === d.ID)
-        );
-
-        remainingItems.forEach(item => {
-            distribution.push({ type: 'summary', data: item });
-        });
+        // Shuffle the data array
+        const shuffledData = [...this.data]
+            .sort(() => Math.random() - 0.5);
 
         // Apply to grid
         this.gridItems.forEach((item, index) => {
-            if (index < distribution.length) {
-                const { type, data } = distribution[index];
-                this.displayContent(item, type, data);
+            if (index < shuffledData.length) {
+                this.displayContent(item, shuffledData[index]);
             }
         });
     }
