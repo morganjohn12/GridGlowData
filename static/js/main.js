@@ -1,20 +1,8 @@
 class DashboardGrid {
     constructor() {
         this.data = [];
-        this.charts = new Map();
-        this.contentTypes = ['chart', 'image', 'title', 'summary'];
+        this.contentTypes = ['iframe', 'image', 'title', 'summary'];
         this.gridItems = document.querySelectorAll('.grid-item');
-        this.chartTypeMap = {
-            'table': 'bar',
-            'Line Chart': 'line',
-            'heatMap': 'bar',
-            'Gauge': 'doughnut',
-            'Table': 'bar',
-            'Map': 'bar',
-            'Pie': 'pie',
-            'Bar': 'bar',
-            'Overlay bar': 'bar'
-        };
         this.setupRefreshButton();
     }
 
@@ -37,8 +25,6 @@ class DashboardGrid {
     }
 
     async refreshContent() {
-        this.charts.forEach(chart => chart.destroy());
-        this.charts.clear();
         this.distributeContent();
     }
 
@@ -55,71 +41,20 @@ class DashboardGrid {
         }
     }
 
-    getChartType(requestedType) {
-        return this.chartTypeMap[requestedType] || 'bar';
-    }
-
-    createChart(container, type, title) {
-        const canvas = document.createElement('canvas');
-        container.appendChild(canvas);
-
-        const ctx = canvas.getContext('2d');
-        const chartType = this.getChartType(type);
-
-        const chartData = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May'],
-            datasets: [{
-                label: title,
-                data: [12, 19, 3, 5, 2],
-                backgroundColor: [
-                    '#7A3CA3',
-                    '#A82592',
-                    '#F478C3',
-                    '#5B89B3',
-                    '#569C3C'
-                ],
-                borderColor: '#7A3CA3',
-                borderWidth: 1
-            }]
-        };
-
-        const chartConfig = {
-            type: chartType,
-            data: chartData,
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: chartType === 'pie' || chartType === 'doughnut'
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        display: chartType !== 'pie' && chartType !== 'doughnut'
-                    },
-                    x: {
-                        display: chartType !== 'pie' && chartType !== 'doughnut'
-                    }
-                }
-            }
-        };
-
-        return new Chart(ctx, chartConfig);
-    }
-
     displayContent(gridItem, contentType, data) {
         const content = gridItem.querySelector('.content');
         content.innerHTML = '';
 
         switch (contentType) {
-            case 'chart':
-                const chartContainer = document.createElement('div');
-                chartContainer.className = 'chart-container';
-                content.appendChild(chartContainer);
-                const chart = this.createChart(chartContainer, data.Chart, data.Title);
-                this.charts.set(gridItem.dataset.index, chart);
+            case 'iframe':
+                const iframeContainer = document.createElement('div');
+                iframeContainer.className = 'iframe-container';
+                const iframe = document.createElement('iframe');
+                iframe.src = data.cardURL;
+                iframe.frameBorder = "0";
+                iframe.allowFullscreen = true;
+                iframeContainer.appendChild(iframe);
+                content.appendChild(iframeContainer);
                 break;
 
             case 'image':
@@ -164,7 +99,7 @@ class DashboardGrid {
     generateContentDistribution() {
         const distribution = [];
         const counts = {
-            chart: 0,
+            iframe: 0,
             image: 0,
             title: 0,
             summary: 0
