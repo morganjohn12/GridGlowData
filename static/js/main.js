@@ -18,13 +18,9 @@ class DashboardGrid {
         const refreshButton = document.querySelector('.refresh-button');
         if (refreshButton) {
             refreshButton.addEventListener('click', () => {
-                this.refreshContent();
+                this.distributeContent();
             });
         }
-    }
-
-    async refreshContent() {
-        this.distributeContent();
     }
 
     async loadData() {
@@ -43,34 +39,12 @@ class DashboardGrid {
         return types[Math.floor(Math.random() * types.length)];
     }
 
-    shouldBeWide(type, data) {
-        if (type === 'iframe') return true;
-        if (type === 'summary' && data.summary && data.summary.length > 300) return true;
-        return false;
-    }
-
-    shouldBeTall(type, data) {
-        if (type === 'summary' && data.summary && data.summary.length > 200) return true;
-        return false;
-    }
-
     displayContent(gridItem, data) {
         const content = gridItem.querySelector('.content');
         content.innerHTML = '';
 
         // Randomly select content type
         const type = this.getRandomContentType();
-
-        // Reset classes
-        gridItem.className = 'grid-item';
-
-        // Apply size classes based on content
-        if (this.shouldBeWide(type, data)) {
-            gridItem.classList.add('grid-item--wide');
-        }
-        if (this.shouldBeTall(type, data)) {
-            gridItem.classList.add('grid-item--tall');
-        }
 
         switch (type) {
             case 'iframe':
@@ -115,7 +89,8 @@ class DashboardGrid {
     distributeContent() {
         // Shuffle the data array
         const shuffledData = [...this.data]
-            .sort(() => Math.random() - 0.5);
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 9); // Only take 9 items for 3x3 grid
 
         // Apply to grid
         this.gridItems.forEach((item, index) => {
