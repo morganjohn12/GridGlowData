@@ -36,16 +36,22 @@ class DashboardGrid {
             console.log('Loaded data:', this.data); // Debug log
         } catch (error) {
             console.error('Error loading CSV:', error);
-            // Fallback to embedded data if fetch fails
-            const csvData = document.getElementById('csvData').textContent;
-            this.data = Papa.parse(csvData, { header: true }).data.filter(item => item.ID);
-            console.log('Fallback data:', this.data); // Debug log
+            throw error;
         }
     }
 
     displayContent(gridItem, contentType, data) {
         const content = gridItem.querySelector('.content');
         content.innerHTML = '';
+
+        // Add size classes based on content type and importance
+        gridItem.className = 'grid-item';
+        if (contentType === 'iframe' && ['4', '1', '2'].includes(data.ID)) {
+            gridItem.classList.add('grid-item--wide');
+        }
+        if (contentType === 'summary' && data.summary.length > 200) {
+            gridItem.classList.add('grid-item--tall');
+        }
 
         switch (contentType) {
             case 'iframe':
@@ -73,6 +79,12 @@ class DashboardGrid {
                 };
                 imgContainer.appendChild(img);
                 content.appendChild(imgContainer);
+
+                // Add title below image
+                const titleDiv = document.createElement('div');
+                titleDiv.className = 'title';
+                titleDiv.textContent = data.Title;
+                content.appendChild(titleDiv);
                 break;
 
             case 'title':
@@ -85,7 +97,6 @@ class DashboardGrid {
             case 'summary':
                 const summaryDiv = document.createElement('div');
                 summaryDiv.className = 'summary';
-                // Use the summary from the CSV data
                 summaryDiv.textContent = data.summary || 'No summary available';
                 content.appendChild(summaryDiv);
                 break;
@@ -93,36 +104,46 @@ class DashboardGrid {
     }
 
     distributeContent() {
-        const contentDistribution = this.generateContentDistribution();
-
-        this.gridItems.forEach((item, index) => {
-            const contentType = contentDistribution[index];
-            const randomDataIndex = Math.floor(Math.random() * this.data.length);
-            this.displayContent(item, contentType, this.data[randomDataIndex]);
-        });
-    }
-
-    generateContentDistribution() {
+        // Ensure we have enough items for each type
         const distribution = [];
-        const counts = {
-            iframe: 0,
-            image: 0,
-            title: 0,
-            summary: 0
-        };
 
-        // Ensure even distribution
-        while (distribution.length < 9) {
-            for (const type of this.contentTypes) {
-                if (distribution.length < 9 && counts[type] < 3) {
-                    distribution.push(type);
-                    counts[type]++;
-                }
+        // Always show key metrics as iframes
+        ['4', '1', '2'].forEach(id => {
+            const item = this.data.find(d => d.ID === id);
+            if (item) {
+                distribution.push({ type: 'iframe', data: item });
             }
+        });
+
+        // Add some images
+        const imageItems = this.data.filter(d => !['4', '1', '2'].includes(d.ID)).slice(0, 3);
+        imageItems.forEach(item => {
+            distribution.push({ type: 'image', data: item });
+        });
+
+        // Fill remaining slots with summaries
+        while (distribution.length < this.gridItems.length) {
+            const remainingItems = this.data.filter(d => 
+                !distribution.some(dist => dist.data.ID === d.ID)
+            );
+            if (remainingItems.length === 0) break;
+
+            const item = remainingItems[Math.floor(Math.random() * remainingItems.length)];
+            distribution.push({ type: 'summary', data: item });
         }
 
-        // Shuffle the distribution
-        return distribution.sort(() => Math.random() - 0.5);
+        // Shuffle non-key metric items
+        const keyMetrics = distribution.slice(0, 3);
+        const otherItems = distribution.slice(3).sort(() => Math.random() - 0.5);
+        const finalDistribution = [...keyMetrics, ...otherItems];
+
+        // Apply to grid
+        this.gridItems.forEach((item, index) => {
+            if (index < finalDistribution.length) {
+                const { type, data } = finalDistribution[index];
+                this.displayContent(item, type, data);
+            }
+        });
     }
 }
 

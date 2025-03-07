@@ -85,6 +85,7 @@ body {
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
     margin: 0 auto;
+    grid-auto-flow: dense; /* This helps fill gaps when items span multiple cells */
 }
 
 .grid-item {
@@ -97,9 +98,48 @@ body {
     aspect-ratio: 4/3;
 }
 
+.grid-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 12px;
+    opacity: 0.1;
+    transition: opacity 0.3s ease;
+    z-index: 0;
+}
+
+/* Gradient variations for different tiles */
+.grid-item:nth-child(3n+1)::before {
+    background: linear-gradient(45deg, var(--success), var(--highlight), var(--primary));
+}
+
+.grid-item:nth-child(3n+2)::before {
+    background: linear-gradient(-45deg, var(--highlight), var(--primary), var(--secondary));
+}
+
+.grid-item:nth-child(3n+3)::before {
+    background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent));
+}
+
 .grid-item:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.grid-item:hover::before {
+    opacity: 0.2;
+}
+
+
+.grid-item--wide {
+    grid-column: span 2;
+}
+
+.grid-item--tall {
+    grid-row: span 2;
 }
 
 .content {
@@ -125,7 +165,6 @@ body {
     margin-bottom: 1rem;
 }
 
-
 /* Iframe container styles */
 .iframe-container {
     position: absolute;
@@ -141,6 +180,27 @@ body {
     border: none;
 }
 
+/* Update image container styles */
+.image-container {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.image-container img:hover {
+    transform: scale(1.05);
+}
+
 /* Responsive adjustments */
 @media (max-width: 1200px) {
     .container {
@@ -149,7 +209,10 @@ body {
 
     .grid-container {
         grid-template-columns: repeat(2, 1fr);
-        gap: 1.5rem;
+    }
+
+    .grid-item--wide {
+        grid-column: auto; /* Reset spanning on smaller screens */
     }
 }
 
@@ -160,7 +223,6 @@ body {
 
     .grid-container {
         grid-template-columns: 1fr;
-        gap: 1rem;
     }
 
     .header {
@@ -198,38 +260,4 @@ body {
 @keyframes loading {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
-}
-
-.image-container {
-    width: 100%;
-    flex-grow: 1;
-    overflow: hidden;
-    border-radius: 8px;
-    min-height: 200px;
-    background: rgba(255, 255, 255, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.image-container img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    transition: transform 0.3s ease;
-}
-
-.image-container img:hover {
-    transform: scale(1.05);
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
